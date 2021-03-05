@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+static def realTime() {
+    return new Date().format("yyMMdd-HHmmss")
+}
+
+static def changeApkName(applicationVariants) {
+    // 重命名打包后的apk名称
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            output.outputFileName = "cdHelpdesk_${variant.productFlavors[0].name}_v${variant.versionName}_${realTime()}_${variant.versionCode}.apk"
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId versions.application
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile rootProject.file('cd_metro.jks')
+            storePassword KEYSTORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            changeApkName(applicationVariants)
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    flavorDimensions "helpdesk"
+    productFlavors {
+        cdTest {
+            versionNameSuffix '测试'
+            dimension "helpdesk"
+            buildConfigField("String", "HOST", "\"${HOST_DEBUG}\"")
+        }
+        cdProduct {
+            dimension "helpdesk"
+            buildConfigField("String", "HOST", "\"${HOST_RELEASE}\"")
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation kotlin_jdk
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.material
+    implementation deps.androidx.constraintlayout
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation deps.androidx.lifecycle_extension
+    implementation deps.androidx.lifecycle_viewmodel
+    implementation deps.androidx.lifecycle_livedata
+    implementation deps.androidx.lifecycle_fragment
+    implementation deps.http.retrofit
+    implementation deps.http.converter_gson
+    implementation deps.http.okhttp_interceptor
+    implementation deps.http.okhttp
+    implementation deps.rx.rxjava2
+    implementation deps.rx.rxandroid
+    implementation deps.rx.adapter_rxjava2
+    implementation deps.rx.permisson
+    implementation deps.smartrefresh
+    implementation deps.image.glide
+    kapt deps.image.gilde_complier
+}

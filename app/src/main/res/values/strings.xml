@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CdMetroHelpdesk</string>
+    <string name="loading_hint">loading…</string>
+</resources>

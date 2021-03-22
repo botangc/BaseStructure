@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "CdMetroHelpdesk"
+rootProject.name = "BaseStructure"

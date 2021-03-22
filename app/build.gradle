@@ -95,7 +95,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation deps.androidx.lifecycle_extension
     implementation deps.androidx.lifecycle_viewmodel
     implementation deps.androidx.lifecycle_livedata
     implementation deps.androidx.lifecycle_fragment

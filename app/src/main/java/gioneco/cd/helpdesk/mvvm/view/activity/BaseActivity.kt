@@ -1,7 +1,5 @@
 package gioneco.cd.helpdesk.mvvm.view.activity
 
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
@@ -124,26 +122,6 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
                 }
             })
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        if (newConfig.fontScale != mDefaultFontScale) {
-            resources
-        }
-        super.onConfigurationChanged(newConfig)
-    }
-
-    /**
-     * 将字体缩放功能关闭
-     */
-    override fun getResources(): Resources {
-        val resources = super.getResources()
-        if (resources.configuration.fontScale != mDefaultFontScale) {
-            val newCon = Configuration()
-            newCon.setToDefaults()
-            return createConfigurationContext(newCon).resources
-        }
-        return resources
     }
 
     override fun onDestroy() {

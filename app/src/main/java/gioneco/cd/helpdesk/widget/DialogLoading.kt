@@ -10,7 +10,7 @@ import gioneco.cd.helpdesk.R
 /**
  * 加载数据显示的dialog
  */
-class LoadingDialog(context: Context) : Dialog(context, R.style.Theme_Light_NoTitle_Dialog) {
+class DialogLoading(context: Context) : Dialog(context, R.style.Theme_Light_NoTitle_Dialog) {
     /**
      * 自定义等待窗
      */

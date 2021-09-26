@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import gioneco.cd.helpdesk.ext.showToast
 import gioneco.cd.helpdesk.mvvm.viewmodel.BaseViewModel
-import gioneco.cd.helpdesk.widget.LoadingDialog
+import gioneco.cd.helpdesk.widget.DialogLoading
 
 /**
  * 基础Fragment
@@ -48,7 +48,7 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
     /**
      * 等待窗
      */
-    private var mLoadingDialog: LoadingDialog? = null
+    private var mDialogLoading: DialogLoading? = null
 
     /**
      * 是否初始化View完成
@@ -139,13 +139,13 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
             })
             //等待窗
             showLoadingDialogWithMsg.observe(viewLifecycleOwner, Observer {
-                if (mLoadingDialog == null) {
-                    mLoadingDialog = activity?.let { context -> LoadingDialog(context) }
+                if (mDialogLoading == null) {
+                    mDialogLoading = activity?.let { context -> DialogLoading(context) }
                 }
                 if (it.first) {
-                    mLoadingDialog?.showWithText(it.second)
+                    mDialogLoading?.showWithText(it.second)
                 } else {
-                    mLoadingDialog?.dismiss()
+                    mDialogLoading?.dismiss()
                 }
             })
         }
@@ -153,7 +153,7 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
 
     override fun onDestroy() {
         mViewModel?.onDestroy()
-        mLoadingDialog?.dismiss()
+        mDialogLoading?.dismiss()
         super.onDestroy()
     }
 }

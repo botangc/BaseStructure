@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import gioneco.cd.helpdesk.ext.showToast
 import gioneco.cd.helpdesk.mvvm.viewmodel.BaseViewModel
-import gioneco.cd.helpdesk.widget.LoadingDialog
+import gioneco.cd.helpdesk.widget.DialogLoading
 
 /**
  * 使用ViewBinding的基础界面
@@ -35,8 +35,8 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
     /**
      * 等待窗
      */
-    private val mLoadingDialog: LoadingDialog by lazy {
-        LoadingDialog(this)
+    private val mDialogLoading: DialogLoading by lazy {
+        DialogLoading(this)
     }
 
     /**
@@ -116,9 +116,9 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
             //等待窗
             showLoadingDialogWithMsg.observe(this@BaseActivity, Observer {
                 if (it.first) {
-                    mLoadingDialog.showWithText(it.second)
+                    mDialogLoading.showWithText(it.second)
                 } else {
-                    mLoadingDialog.dismiss()
+                    mDialogLoading.dismiss()
                 }
             })
         }
@@ -126,7 +126,7 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
 
     override fun onDestroy() {
         mViewModel?.onDestroy()
-        mLoadingDialog.dismiss()
+        mDialogLoading.dismiss()
         super.onDestroy()
     }
 

@@ -77,9 +77,7 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
      */
     private fun initViewModel() {
         providerViewModel()?.let {
-            mViewModel = ViewModelProvider(this).get(it).apply {
-                bindLifecycle(this@BaseFragment.lifecycle)
-            }
+            mViewModel = ViewModelProvider(this).get(it)
         }
     }
 
@@ -129,7 +127,7 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
     @CallSuper
     open fun subscribeUi() {
         mViewModel?.apply {
-            //吐司
+            // 吐司
             mToastPair.observe(viewLifecycleOwner, Observer {
                 when (it.second) {
                     is Int -> getString(it.second as Int)
@@ -137,8 +135,8 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
                     else -> it.second.toString()
                 }.showToast(it.first)
             })
-            //等待窗
-            showLoadingDialogWithMsg.observe(viewLifecycleOwner, Observer {
+            // 等待窗
+            mDialogLoadingPair.observe(viewLifecycleOwner, Observer {
                 if (mDialogLoading == null) {
                     mDialogLoading = activity?.let { context -> DialogLoading(context) }
                 }
@@ -152,7 +150,6 @@ abstract class BaseFragment<T : ViewBinding, VM : BaseViewModel> : Fragment() {
     }
 
     override fun onDestroy() {
-        mViewModel?.onDestroy()
         mDialogLoading?.dismiss()
         super.onDestroy()
     }

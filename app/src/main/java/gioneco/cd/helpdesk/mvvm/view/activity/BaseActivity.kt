@@ -47,7 +47,8 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
     /**
      * 非空页面基础Binding类
      */
-    protected val mRoot get() = mBinding ?: throw Exception("method provideBinding() had something error")
+    protected val mRoot
+        get() = mBinding ?: throw Exception("method provideBinding() had something error")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,9 +82,7 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
     private fun initVm() {
         providerViewModel()?.let {
             //便于configuration change等导致的复用，此方法在创建对象后存在activity相关的HashMap中
-            mViewModel = ViewModelProvider(this).get(it).apply {
-                bindLifecycle(this@BaseActivity.lifecycle)
-            }
+            mViewModel = ViewModelProvider(this).get(it)
         }
     }
 
@@ -105,7 +104,7 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
     @CallSuper
     open fun subscribeUi() {
         mViewModel?.apply {
-            //吐司
+            // 吐司
             mToastPair.observe(this@BaseActivity, Observer {
                 when (it.second) {
                     is Int -> getString(it.second as Int)
@@ -113,8 +112,8 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
                     else -> it.second.toString()
                 }.showToast(it.first)
             })
-            //等待窗
-            showLoadingDialogWithMsg.observe(this@BaseActivity, Observer {
+            // 等待窗
+            mDialogLoadingPair.observe(this@BaseActivity, Observer {
                 if (it.first) {
                     mDialogLoading.showWithText(it.second)
                 } else {
@@ -125,7 +124,6 @@ abstract class BaseActivity<T : ViewBinding, VM : BaseViewModel> : AppCompatActi
     }
 
     override fun onDestroy() {
-        mViewModel?.onDestroy()
         mDialogLoading.dismiss()
         super.onDestroy()
     }

@@ -97,16 +97,13 @@ dependencies {
 
     implementation deps.androidx.lifecycle_viewmodel
     implementation deps.androidx.lifecycle_livedata
-    implementation deps.androidx.lifecycle_fragment
     implementation deps.http.retrofit
     implementation deps.http.converter_gson
     implementation deps.http.okhttp_interceptor
     implementation deps.http.okhttp
-    implementation deps.rx.rxjava2
-    implementation deps.rx.rxandroid
-    implementation deps.rx.adapter_rxjava2
-    implementation deps.rx.permisson
-    implementation deps.smartrefresh
+    implementation deps.smartRefresh.core
+    implementation deps.smartRefresh.header
+    implementation deps.smartRefresh.footer
     implementation deps.image.glide
     kapt deps.image.gilde_complier
 }

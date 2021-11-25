@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">CdMetroHelpdesk</string>
+    <string name="app_name">BaseStructure</string>
     <string name="loading_hint">loading…</string>
+
+    <string name="error_network">网络异常，请检查网络！</string>
+    <string name="error_server">数据获取失败，请稍后重试！</string>
 </resources>

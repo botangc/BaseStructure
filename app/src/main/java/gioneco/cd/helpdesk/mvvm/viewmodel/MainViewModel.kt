@@ -1,5 +1,7 @@
 package gioneco.cd.helpdesk.mvvm.viewmodel
 
+import gioneco.cd.helpdesk.http.HttpRepository
+
 /**
  * 主页面VM
  *
@@ -7,4 +9,14 @@ package gioneco.cd.helpdesk.mvvm.viewmodel
  */
 class MainViewModel : BaseViewModel() {
 
+    fun test() {
+        requestAPI(
+            {
+                HttpRepository.instance.apiClass.getStations()
+            },
+            {
+
+            }
+        )
+    }
 }

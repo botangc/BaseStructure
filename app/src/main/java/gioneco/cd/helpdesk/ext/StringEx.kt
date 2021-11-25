@@ -1,5 +1,6 @@
 package gioneco.cd.helpdesk.ext
 
+import android.view.Gravity
 import android.widget.Toast
 import gioneco.cd.helpdesk.MyApplication
 import java.security.MessageDigest
@@ -7,13 +8,13 @@ import java.util.regex.Pattern
 import kotlin.experimental.and
 
 
-/**
+/*
  * 字符串相关扩展函数
  *
  * @author tangbo
  */
 
-private val mToast: Toast = Toast.makeText(MyApplication.instance, "", Toast.LENGTH_SHORT)
+private var mToast: Toast? = null
 
 /**
  * 本地错误信息弹窗对应码
@@ -26,13 +27,16 @@ const val TOAST_LOCAL_CODE = -1
  * @param code 错误码
  */
 fun String?.showToast(code: Int? = TOAST_LOCAL_CODE) {
-    if (!this.isNullOrEmpty()) {
-        mToast.apply {
-            setText(this@showToast)
-            duration = Toast.LENGTH_SHORT
-            show()
-        }
+    if (this.isNullOrEmpty()) {
+        return
     }
+    if (mToast != null) {
+        mToast?.cancel()
+    }
+    mToast = Toast.makeText(MyApplication.instance, this, Toast.LENGTH_SHORT).apply {
+        setGravity(Gravity.CENTER, 0, 0)
+    }
+    mToast?.show()
 }
 
 /**
